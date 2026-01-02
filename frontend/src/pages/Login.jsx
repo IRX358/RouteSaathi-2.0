@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
 import { Bus, Shield, UserCircle, ArrowRight } from 'lucide-react';
-import logo from '../assets/RouteSaathi_logo.png';
+import logo from '../assets/RouteSaathi_logo.svg';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -42,7 +42,6 @@ function Login() {
   };
 
   const handlePassengerAccess = async () => {
-    // Auto-login as passenger for easy access
     await performLogin('user@gmail.com', 'user123');
   };
 
@@ -51,8 +50,12 @@ function Login() {
       <div className="w-full max-w-md animate-fadeIn">
         {/* Logo and Branding */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-2xl shadow-lg mb-6 p-2">
-            <img src={logo} alt="RouteSaathi Logo" className="w-full h-full object-contain" />
+          <div className="inline-flex items-center justify-center w-28 h-28 bg-white rounded-3xl shadow-lg mb-6 p-1 overflow-hidden">
+            <img 
+              src={logo} 
+              alt="RouteSaathi Logo" 
+              className="w-full h-full object-cover rounded-2xl" 
+            />
           </div>
           <h1 className="text-4xl font-bold text-white tracking-tight mb-2">RouteSaathi</h1>
           <p className="text-blue-200 text-lg font-medium">BMTC Fleet Management System</p>
@@ -140,7 +143,7 @@ function Login() {
 
         {/* Footer */}
         <p className="text-center text-blue-300/80 text-sm mt-8 font-medium">
-          © 2025  Bengaluru Metropolitan Transport Corporation 
+          © 2025 Bengaluru Metropolitan Transport Corporation
         </p>
       </div>
     </div>
