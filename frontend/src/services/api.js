@@ -60,6 +60,7 @@ export const notificationsAPI = {
 export const aiAPI = {
     getRecommendations: () => api.get('/ai/recommendations'),
     getHighPriority: () => api.get('/ai/recommendations/high-priority'),
+    getAnalytics: () => api.get('/ai/analytics'),
     applyAllocation: (routeId, action, busesChange) =>
         api.post('/ai/apply-allocation', { route_id: routeId, action, buses_change: busesChange }),
     predictDemand: (routeId) => api.get(`/ai/predict-demand/${routeId}`),

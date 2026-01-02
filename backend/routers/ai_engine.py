@@ -270,3 +270,60 @@ async def get_ml_suggestions_count():
         "high_priority_count": len([r for r in action_needed if r["priority"] == "HIGH"]),
         "low_priority_count": len([r for r in action_needed if r["priority"] == "LOW"])
     }
+@router.get("/analytics")
+async def get_analytics_data():
+    """Get aggregated data for analytics charts"""
+    tickets = read_json("tickets.json")
+    buses = read_json("buses.json")
+    routes = read_json("routes.json")
+    alerts = read_json("alerts.json")
+    
+    # 1. Demand Over Time (Hourly)
+    hourly_demand = defaultdict(int)
+    for ticket in tickets:
+        try:
+            ts = ticket.get("timestamp", "")
+            hour = datetime.fromisoformat(ts.replace("Z", "")).hour
+            hourly_demand[hour] += 1
+        except:
+            pass
+    
+    demand_chart = [{"hour": f"{h:02d}:00", "count": hourly_demand[h]} for h in range(24)]
+    
+    # 2. Revenue Per Route
+    route_revenue = defaultdict(float)
+    route_names = {r["id"]: r["name"] for r in routes}
+    
+    for ticket in tickets:
+        route_id = ticket.get("route_id")
+        if route_id:
+            route_revenue[route_id] += float(ticket.get("fare", 0))
+            
+    revenue_chart = [
+        {"route": route_names.get(rid, rid), "revenue": round(rev, 2)} 
+        for rid, rev in route_revenue.items()
+    ]
+    revenue_chart.sort(key=lambda x: x["revenue"], reverse=True)
+    
+    # 3. Alert Distribution
+    alert_counts = defaultdict(int)
+    for alert in alerts:
+        alert_type = alert.get("type", "OTHER")
+        alert_counts[alert_type] += 1
+        
+    alert_chart = [
+        {"name": name, "value": count} 
+        for name, count in alert_counts.items()
+    ]
+    
+    return {
+        "demand_over_time": demand_chart,
+        "revenue_per_route": revenue_chart[:8],  # Top 8 routes
+        "alert_distribution": alert_chart,
+        "summary": {
+            "total_tickets": len(tickets),
+            "total_revenue": sum(route_revenue.values()),
+            "total_alerts": len(alerts),
+            "active_buses": len([b for b in buses if b.get("status") == "ACTIVE"])
+        }
+    }

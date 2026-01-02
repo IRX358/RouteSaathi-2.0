@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { Bus, Shield, UserCircle, ArrowRight } from 'lucide-react';
 import logo from '../assets/RouteSaathi_logo.svg';
 
 function Login() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,8 +17,8 @@ function Login() {
   const navigate = useNavigate();
 
   const demoUsers = [
-    { email: 'admin@bmtc.gov.in', password: 'admin123', label: 'Coordinator', icon: Shield, desc: 'Fleet Management' },
-    { email: 'ganesh@bmtc.gov.in', password: 'conductor123', label: 'Conductor', icon: Bus, desc: 'Bus Operations' },
+    { email: 'admin@bmtc.gov.in', password: 'admin123', label: t('coordinator'), icon: Shield, desc: 'Fleet Management' },
+    { email: 'ganesh@bmtc.gov.in', password: 'conductor123', label: t('conductor'), icon: Bus, desc: 'Bus Operations' },
   ];
 
   const handleLogin = async (e) => {
@@ -46,7 +49,11 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#002147] via-[#003366] to-[#002147] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#002147] via-[#003366] to-[#002147] flex items-center justify-center p-6 relative">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6 z-50">
+        <LanguageSwitcher />
+      </div>
       <div className="w-full max-w-md animate-fadeIn">
         {/* Logo and Branding - Increased Spacing */}
         <div className="text-center mb-12">
@@ -63,11 +70,11 @@ function Login() {
 
         {/* Login Card - Increased Padding */}
         <div className="bg-white rounded-[2rem] shadow-2xl p-14 border border-white/10 backdrop-blur-sm">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">Welcome Back</h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">{t('welcome')}</h2>
 
           <form onSubmit={handleLogin} className="space-y-8">
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">Email Address</label>
+              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">{t('email')}</label>
               <input
                 type="email"
                 value={email}
@@ -79,7 +86,7 @@ function Login() {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">Password</label>
+              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">{t('password')}</label>
               <input
                 type="password"
                 value={password}
@@ -98,7 +105,7 @@ function Login() {
             )}
 
             <button type="submit" disabled={loading} className="btn btn-primary w-full py-5 text-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all rounded-xl font-bold tracking-wide">
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? t('signing_in') : t('login')}
             </button>
           </form>
 
@@ -110,14 +117,14 @@ function Login() {
               className="w-full bg-blue-50 hover:bg-blue-100 text-[#002147] border-2 border-[#002147]/10 py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all group hover:shadow-md"
             >
               <UserCircle className="w-7 h-7" />
-              Use as Passenger
+              {t('use_as_passenger')}
               <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all" />
             </button>
           </div>
 
           {/* Demo Logins - Cleaned Up */}
           <div className="mt-10 pt-8 border-t border-gray-100">
-            <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Staff Demo Access</p>
+            <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">{t('demo_credentials')}</p>
             <div className="space-y-4">
               {demoUsers.map((user, idx) => (
                 <button

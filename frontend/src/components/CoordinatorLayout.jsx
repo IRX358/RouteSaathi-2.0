@@ -1,8 +1,11 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LayoutDashboard, MapPin, Brain, MessageSquare, LogOut, Bus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './LanguageSwitcher';
+import { LayoutDashboard, MapPin, Brain, MessageSquare, LogOut, Bus, BarChart3 } from 'lucide-react';
 
 function CoordinatorLayout({ children, title, subtitle }) {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -12,10 +15,11 @@ function CoordinatorLayout({ children, title, subtitle }) {
   };
 
   const navItems = [
-    { path: '/coordinator', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/coordinator/routes', icon: MapPin, label: 'Track Bus Routes' },
-    { path: '/coordinator/ai', icon: Brain, label: 'AI Recommendations' },
-    { path: '/coordinator/communication', icon: MessageSquare, label: 'Communication' },
+    { path: '/coordinator', icon: LayoutDashboard, label: t('dashboard'), end: true },
+    { path: '/coordinator/routes', icon: MapPin, label: t('live_tracking') },
+    { path: '/coordinator/ai', icon: Brain, label: t('ai_recommendations') },
+    { path: '/coordinator/analytics', icon: BarChart3, label: t('analytics') },
+    { path: '/coordinator/communication', icon: MessageSquare, label: t('broadcast') },
   ];
 
   return (
@@ -33,8 +37,9 @@ function CoordinatorLayout({ children, title, subtitle }) {
         </div>
         
         <div className="flex items-center gap-6">
+          <LanguageSwitcher />
           <div className="text-right hidden md:block">
-            <p className="font-semibold text-sm">{user?.name || 'Coordinator'}</p>
+            <p className="font-semibold text-sm">{user?.name || t('coordinator')}</p>
             <p className="text-xs text-blue-200">Control Center</p>
           </div>
           <button
@@ -42,7 +47,7 @@ function CoordinatorLayout({ children, title, subtitle }) {
             className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition flex items-center gap-2 text-sm font-medium"
           >
             <LogOut className="w-4 h-4" />
-            <span>Logout</span>
+            <span>{t('logout')}</span>
           </button>
         </div>
       </header>

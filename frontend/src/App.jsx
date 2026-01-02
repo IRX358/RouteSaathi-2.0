@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import CoordinatorDashboard from './pages/coordinator/Dashboard';
 import CoordinatorRoutes from './pages/coordinator/TrackRoutes';
 import CoordinatorAI from './pages/coordinator/AIRecommendations';
+import CoordinatorAnalytics from './pages/coordinator/Analytics';
 import CoordinatorCommunication from './pages/coordinator/Communication';
 import ConductorDashboard from './pages/conductor/Dashboard';
 import ConductorTicketing from './pages/conductor/Ticketing';
@@ -64,6 +65,11 @@ function AppContent() {
       <Route path="/coordinator/ai" element={
         <ProtectedRoute allowedRoles={['coordinator']}>
           <CoordinatorAI />
+        </ProtectedRoute>
+      } />
+      <Route path="/coordinator/analytics" element={
+        <ProtectedRoute allowedRoles={['coordinator']}>
+          <CoordinatorAnalytics />
         </ProtectedRoute>
       } />
       <Route path="/coordinator/communication" element={
