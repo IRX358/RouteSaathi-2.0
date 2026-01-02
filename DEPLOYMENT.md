@@ -57,7 +57,7 @@ We will deploy the React Frontend on Vercel.
     *   Expand the "Environment Variables" section.
     *   Key: `VITE_API_URL`
     *   Value: Paste your **Render Backend URL** (e.g., `https://routesaathi-backend.onrender.com`).
-    *   *Important*: Do not add a trailing slash `/` at the end of the URL.
+    *   *Note*: The application is now configured to automatically append `/api` to this URL, so you just need the base domain.
 5.  **Deploy**:
     *   Click **Deploy**.
     *   Vercel will build and deploy your site.
