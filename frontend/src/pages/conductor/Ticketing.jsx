@@ -108,17 +108,17 @@ function Ticketing() {
               </h2>
             </div>
 
-            <div className="card-body space-y-6">
+            <div className="card-body space-y-8">
               {/* From Stop */}
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2 ml-1">From Stop</label>
+                <label className="block text-sm font-bold text-gray-700 mb-3 ml-1 uppercase tracking-wide">From Stop</label>
                 <select
                   value={fromStop}
                   onChange={(e) => {
                     setFromStop(e.target.value);
                     if (toStop) calculateFare(e.target.value, toStop);
                   }}
-                  className="input text-lg"
+                  className="input text-lg py-4"
                 >
                   <option value="">Select boarding stop</option>
                   {stops.map((stop, i) => (
@@ -129,14 +129,14 @@ function Ticketing() {
 
               {/* To Stop */}
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2 ml-1">To Stop</label>
+                <label className="block text-sm font-bold text-gray-700 mb-3 ml-1 uppercase tracking-wide">To Stop</label>
                 <select
                   value={toStop}
                   onChange={(e) => {
                     setToStop(e.target.value);
                     if (fromStop) calculateFare(fromStop, e.target.value);
                   }}
-                  className="input text-lg"
+                  className="input text-lg py-4"
                 >
                   <option value="">Select destination</option>
                   {stops.map((stop, i) => (
@@ -147,18 +147,18 @@ function Ticketing() {
 
               {/* Quantity */}
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2 ml-1">Quantity</label>
-                <div className="flex items-center gap-4">
+                <label className="block text-sm font-bold text-gray-700 mb-3 ml-1 uppercase tracking-wide">Quantity</label>
+                <div className="flex items-center justify-center gap-6">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition"
+                    className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition shadow-sm"
                   >
                     <Minus className="w-6 h-6" />
                   </button>
-                  <span className="text-4xl font-bold w-20 text-center text-gray-800">{quantity}</span>
+                  <span className="text-5xl font-bold w-24 text-center text-gray-800">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition"
+                    className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-2xl font-bold hover:bg-gray-200 transition shadow-sm"
                   >
                     <Plus className="w-6 h-6" />
                   </button>
@@ -166,14 +166,14 @@ function Ticketing() {
               </div>
 
               {/* Fare Display */}
-              <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-                <div className="flex justify-between items-center mb-3">
-                  <span className="text-gray-600 font-medium">Fare per ticket</span>
-                  <span className="text-xl font-bold text-gray-900">₹{fare}</span>
+              <div className="bg-gray-50 rounded-xl p-8 border border-gray-200 shadow-sm">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-gray-600 font-semibold text-base">Fare per ticket</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{fare}</span>
                 </div>
-                <div className="flex justify-between items-center pt-3 border-t border-gray-200">
-                  <span className="text-gray-800 font-bold text-lg">Total Amount</span>
-                  <span className="text-3xl font-bold text-[#C8102E]">₹{fare * quantity}</span>
+                <div className="flex justify-between items-center pt-4 border-t-2 border-gray-300">
+                  <span className="text-gray-800 font-bold text-xl">Total Amount</span>
+                  <span className="text-4xl font-bold text-[#C8102E]">₹{fare * quantity}</span>
                 </div>
               </div>
 
@@ -181,11 +181,11 @@ function Ticketing() {
               <button
                 onClick={handleIssueTicket}
                 disabled={loading || !fromStop || !toStop}
-                className="btn btn-primary w-full py-4 text-xl shadow-lg"
+                className="btn btn-primary w-full py-5 text-xl shadow-lg"
               >
                 {loading ? 'Issuing...' : (
                   <>
-                    <QrCode className="w-6 h-6" />
+                    <QrCode className="w-7 h-7" />
                     Issue Ticket
                   </>
                 )}
@@ -196,17 +196,19 @@ function Ticketing() {
           {/* Recently Issued */}
           {issuedTickets.length > 0 && (
             <div className="mt-8 card animate-fadeIn">
-              <div className="card-header bg-gray-50">
+              <div className="card-header bg-gray-50 text-lg font-bold">
                 Recently Issued
               </div>
               <div className="divide-y divide-gray-100">
                 {issuedTickets.map((ticket, i) => (
-                  <div key={i} className="p-5 flex justify-between items-center hover:bg-gray-50 transition">
-                    <div>
-                      <p className="font-bold text-gray-900 text-lg">{ticket.from} → {ticket.to}</p>
-                      <p className="text-sm text-gray-500 font-medium mt-1">{ticket.time} • {ticket.quantity} ticket(s)</p>
+                  <div key={i} className="data-list-item">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-bold text-gray-900 text-lg mb-2">{ticket.from} → {ticket.to}</p>
+                        <p className="text-sm text-gray-500 font-medium">{ticket.time} • {ticket.quantity} ticket(s)</p>
+                      </div>
+                      <span className="badge badge-danger text-lg">₹{ticket.fare}</span>
                     </div>
-                    <span className="badge badge-danger text-lg px-4 py-2">₹{ticket.fare}</span>
                   </div>
                 ))}
               </div>

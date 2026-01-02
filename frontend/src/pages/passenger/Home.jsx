@@ -100,11 +100,11 @@ function PassengerHome() {
       <div className="page-content">
         {/* Track Tab */}
         {activeTab === 'track' && (
-          <div className="space-y-5 animate-fadeIn">
+          <div className="space-y-6 animate-fadeIn">
             {/* Search */}
             <div className="card">
               <div className="card-body">
-                <div className="flex gap-3">
+                <div className="flex gap-4">
                   <div className="relative flex-1">
                     <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                     <input
@@ -113,19 +113,19 @@ function PassengerHome() {
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                       placeholder="Where do you want to go?"
-                      className="input input-with-icon"
+                      className="input input-with-icon py-4 text-base"
                     />
                   </div>
-                  <button onClick={handleSearch} className="btn btn-primary px-6">
+                  <button onClick={handleSearch} className="btn btn-primary">
                     Search
                   </button>
                 </div>
                 {searchResults.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-100 space-y-2">
+                  <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
                     {searchResults.slice(0, 3).map((route, i) => (
-                      <div key={i} className="p-3 bg-gray-50 rounded-xl">
-                        <p className="font-semibold text-gray-900">{route.name}</p>
-                        <p className="text-sm text-gray-500 truncate">{route.stops?.slice(0, 4).join(' → ')}</p>
+                      <div key={i} className="p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition">
+                        <p className="font-bold text-gray-900 text-base mb-2">{route.name}</p>
+                        <p className="text-sm text-gray-600 leading-relaxed">{route.stops?.slice(0, 4).join(' → ')}</p>
                       </div>
                     ))}
                   </div>
@@ -134,16 +134,16 @@ function PassengerHome() {
             </div>
 
             {/* Map */}
-            <div className="card" style={{ height: '300px' }}>
+            <div className="card" style={{ height: '350px' }}>
               <MapContainer center={[12.9716, 77.5946]} zoom={12} style={{ height: '100%', width: '100%', borderRadius: '16px' }}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 {buses.slice(0, 15).map((bus) => (
                   <Marker key={bus.id} position={[bus.lat, bus.lng]} icon={createBusIcon(bus.occupancy_percent)}>
                     <Popup>
-                      <div className="text-center py-1">
-                        <p className="font-bold text-base">{bus.id}</p>
-                        <p className="text-gray-600 text-sm">Route: {bus.route_id}</p>
-                        <span className={`badge ${getOccupancy(bus.occupancy_percent).class} mt-2`}>
+                      <div className="text-center py-2">
+                        <p className="font-bold text-base mb-1">{bus.id}</p>
+                        <p className="text-gray-600 text-sm mb-2">Route: {bus.route_id}</p>
+                        <span className={`badge ${getOccupancy(bus.occupancy_percent).class}`}>
                           {bus.occupancy_percent}% - {getOccupancy(bus.occupancy_percent).label}
                         </span>
                       </div>
@@ -155,20 +155,22 @@ function PassengerHome() {
 
             {/* Nearby Buses */}
             <div className="card">
-              <div className="card-header">Nearby Buses</div>
+              <div className="card-header text-lg font-bold">Nearby Buses</div>
               <div className="divide-y divide-gray-100">
                 {buses.slice(0, 4).map((bus) => (
-                  <div key={bus.id} className="flex items-center justify-between p-4 hover:bg-gray-50">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-[#002147] rounded-xl flex items-center justify-center text-xl">🚌</div>
-                      <div>
-                        <p className="font-semibold text-gray-900">{bus.id}</p>
-                        <p className="text-sm text-gray-500">{bus.route_id} • {bus.last_stop}</p>
+                  <div key={bus.id} className="data-list-item">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-[#002147] rounded-xl flex items-center justify-center text-2xl shadow-sm">🚌</div>
+                        <div>
+                          <p className="font-bold text-gray-900 text-base mb-1">{bus.id}</p>
+                          <p className="text-sm text-gray-500">{bus.route_id} • {bus.last_stop}</p>
+                        </div>
                       </div>
+                      <span className={`badge ${getOccupancy(bus.occupancy_percent).class} text-base`}>
+                        {bus.occupancy_percent}%
+                      </span>
                     </div>
-                    <span className={`badge ${getOccupancy(bus.occupancy_percent).class}`}>
-                      {bus.occupancy_percent}%
-                    </span>
                   </div>
                 ))}
               </div>
@@ -178,38 +180,38 @@ function PassengerHome() {
 
         {/* Tickets Tab */}
         {activeTab === 'tickets' && (
-          <div className="space-y-5 animate-fadeIn">
-            <h2 className="text-xl font-bold text-gray-900">My Tickets</h2>
+          <div className="space-y-6 animate-fadeIn">
+            <h2 className="text-2xl font-bold text-gray-900">My Tickets</h2>
             {myTickets.map((ticket) => (
-              <div key={ticket.id} className="card overflow-hidden">
-                <div className={`px-5 py-3 flex justify-between items-center ${ticket.valid ? 'bg-green-500' : 'bg-gray-400'} text-white`}>
-                  <span className="font-medium">{ticket.id}</span>
-                  <span className="badge bg-white/20">{ticket.valid ? 'Valid' : 'Used'}</span>
+              <div key={ticket.id} className="card overflow-hidden shadow-md">
+                <div className={`px-6 py-4 flex justify-between items-center ${ticket.valid ? 'bg-green-500' : 'bg-gray-400'} text-white`}>
+                  <span className="font-semibold text-base">{ticket.id}</span>
+                  <span className="badge bg-white/20 text-white">{ticket.valid ? 'Valid' : 'Used'}</span>
                 </div>
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="p-6">
+                  <div className="flex items-center justify-between mb-6">
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wide">From</p>
-                      <p className="font-bold text-gray-900 text-lg">{ticket.from}</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">From</p>
+                      <p className="font-bold text-gray-900 text-xl">{ticket.from}</p>
                     </div>
-                    <div className="flex-1 px-4">
+                    <div className="flex-1 px-6">
                       <div className="border-t-2 border-dashed border-gray-300 relative">
-                        <div className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-2 text-gray-400">→</div>
+                        <div className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-3 text-gray-400 text-lg">→</div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-500 uppercase tracking-wide">To</p>
-                      <p className="font-bold text-gray-900 text-lg">{ticket.to}</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-2">To</p>
+                      <p className="font-bold text-gray-900 text-xl">{ticket.to}</p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-dashed border-gray-200">
-                    <div className="flex items-center gap-3 text-gray-500 text-sm">
-                      <Clock className="w-4 h-4" />
-                      <span>{ticket.date} • {ticket.time}</span>
+                  <div className="flex items-center justify-between pt-5 border-t-2 border-dashed border-gray-200">
+                    <div className="flex items-center gap-3 text-gray-600 text-base">
+                      <Clock className="w-5 h-5" />
+                      <span className="font-medium">{ticket.date} • {ticket.time}</span>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <span className="text-xl font-bold text-[#C8102E]">₹{ticket.fare}</span>
-                      {ticket.valid && <QrCode className="w-10 h-10 text-gray-700" />}
+                    <div className="flex items-center gap-5">
+                      <span className="text-2xl font-bold text-[#C8102E]">₹{ticket.fare}</span>
+                      {ticket.valid && <QrCode className="w-12 h-12 text-gray-700" />}
                     </div>
                   </div>
                 </div>
@@ -220,21 +222,21 @@ function PassengerHome() {
 
         {/* SOS Tab */}
         {activeTab === 'sos' && (
-          <div className="flex flex-col items-center justify-center py-12 animate-fadeIn">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Emergency SOS</h2>
-            <p className="text-gray-500 mb-10 text-center">Press the button below in case of emergency</p>
-            
-            <button onClick={() => setShowSOS(true)} className="w-44 h-44 rounded-full bg-red-500 hover:bg-red-600 active:scale-95 transition-all shadow-xl flex flex-col items-center justify-center text-white">
-              <AlertTriangle className="w-14 h-14 mb-2" />
-              <span className="text-2xl font-bold">SOS</span>
+          <div className="flex flex-col items-center justify-center py-16 animate-fadeIn">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">Emergency SOS</h2>
+            <p className="text-gray-600 text-base mb-12 text-center max-w-md">Press the button below in case of emergency</p>
+
+            <button onClick={() => setShowSOS(true)} className="w-48 h-48 rounded-full bg-red-500 hover:bg-red-600 active:scale-95 transition-all shadow-2xl flex flex-col items-center justify-center text-white">
+              <AlertTriangle className="w-16 h-16 mb-3" />
+              <span className="text-3xl font-bold">SOS</span>
             </button>
 
-            <div className="mt-10 text-center text-gray-600 text-sm max-w-xs">
-              <p className="font-medium mb-3">This will immediately:</p>
-              <ul className="space-y-2 text-left">
-                <li className="flex items-center gap-2"><span className="text-red-500">•</span> Alert nearby police</li>
-                <li className="flex items-center gap-2"><span className="text-red-500">•</span> Notify emergency contacts</li>
-                <li className="flex items-center gap-2"><span className="text-red-500">•</span> Share your live location</li>
+            <div className="mt-12 text-center text-gray-700 text-base max-w-sm">
+              <p className="font-bold mb-5 text-lg">This will immediately:</p>
+              <ul className="space-y-4 text-left bg-white rounded-xl p-6 shadow-sm">
+                <li className="flex items-center gap-3"><span className="text-red-500 text-xl font-bold">•</span><span className="font-medium">Alert nearby police</span></li>
+                <li className="flex items-center gap-3"><span className="text-red-500 text-xl font-bold">•</span><span className="font-medium">Notify emergency contacts</span></li>
+                <li className="flex items-center gap-3"><span className="text-red-500 text-xl font-bold">•</span><span className="font-medium">Share your live location</span></li>
               </ul>
             </div>
           </div>

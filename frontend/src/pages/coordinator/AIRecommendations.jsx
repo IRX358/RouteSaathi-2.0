@@ -77,68 +77,68 @@ function AIRecommendations() {
       subtitle=""
     >
       {/* Header Actions */}
-      <div className="flex justify-end gap-3 mb-4">
-        <button 
+      <div className="flex justify-end gap-4 mb-6">
+        <button
           onClick={loadRecommendations}
-          className="bg-[#002147] text-white px-6 py-2 rounded-lg hover:bg-[#003366] transition flex items-center gap-2"
+          className="btn btn-secondary flex items-center gap-3"
         >
-          <RefreshCw className="w-4 h-4" />
+          <RefreshCw className="w-5 h-5" />
           Refresh
         </button>
-        <button 
+        <button
           onClick={handleApplyAll}
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+          className="btn bg-green-600 text-white hover:bg-green-700 flex items-center gap-3"
         >
-          <CheckCircle className="w-4 h-4" />
+          <CheckCircle className="w-5 h-5" />
           Apply All
         </button>
       </div>
 
       {/* Analysis Summary */}
-      <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg mb-6">
-        <p className="text-gray-700">
-          <strong>Analysis Summary:</strong> {summary || 'Based on passenger footfall patterns, congestion data, and historical ticketing records from the past 7 days, the system recommends the following bus reallocations to optimize fleet efficiency.'}
+      <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl mb-8">
+        <p className="text-gray-700 text-base leading-relaxed">
+          <strong className="text-gray-900">Analysis Summary:</strong> {summary || 'Based on passenger footfall patterns, congestion data, and historical ticketing records from the past 7 days, the system recommends the following bus reallocations to optimize fleet efficiency.'}
         </p>
       </div>
 
       {/* Recommendations Table */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="bg-[#002147] text-white">
-              <th className="px-4 py-3 text-left font-semibold">Priority</th>
-              <th className="px-4 py-3 text-left font-semibold">Route (From → To)</th>
-              <th className="px-4 py-3 text-center font-semibold">Current Buses</th>
-              <th className="px-4 py-3 text-center font-semibold">Recommended Buses</th>
-              <th className="px-4 py-3 text-center font-semibold">Change</th>
-              <th className="px-4 py-3 text-left font-semibold">Reason</th>
-              <th className="px-4 py-3 text-left font-semibold">Impact</th>
-              <th className="px-4 py-3 text-center font-semibold">Action</th>
+              <th className="text-left font-semibold">Priority</th>
+              <th className="text-left font-semibold">Route (From → To)</th>
+              <th className="text-center font-semibold">Current Buses</th>
+              <th className="text-center font-semibold">Recommended Buses</th>
+              <th className="text-center font-semibold">Change</th>
+              <th className="text-left font-semibold">Reason</th>
+              <th className="text-left font-semibold">Impact</th>
+              <th className="text-center font-semibold">Action</th>
             </tr>
           </thead>
           <tbody>
             {recommendations.map((rec, index) => (
-              <tr key={index} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getPriorityBadge(rec.priority)}`}>
+              <tr key={index} className="border-b hover:bg-gray-50 transition">
+                <td>
+                  <span className={`badge ${getPriorityBadge(rec.priority)}`}>
                     {rec.priority}
                   </span>
                 </td>
-                <td className="px-4 py-4">
-                  <p className="font-medium text-gray-800">{rec.route_name || `Route ${rec.route_id}`}</p>
+                <td>
+                  <p className="font-semibold text-gray-800 mb-1">{rec.route_name || `Route ${rec.route_id}`}</p>
                   <p className="text-sm text-gray-500">({rec.route_id})</p>
                 </td>
-                <td className="px-4 py-4 text-center font-semibold">{rec.current_buses}</td>
-                <td className="px-4 py-4 text-center font-semibold">{rec.recommended_buses}</td>
-                <td className="px-4 py-4 text-center">
+                <td className="text-center font-bold text-base">{rec.current_buses}</td>
+                <td className="text-center font-bold text-base">{rec.recommended_buses}</td>
+                <td className="text-center">
                   {getChangeIcon(rec.change)}
                 </td>
-                <td className="px-4 py-4 text-sm text-gray-600">{rec.reason}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{rec.impact}</td>
-                <td className="px-4 py-4 text-center">
-                  <button 
+                <td className="text-sm text-gray-700 leading-relaxed">{rec.reason}</td>
+                <td className="text-sm text-gray-700 leading-relaxed">{rec.impact}</td>
+                <td className="text-center">
+                  <button
                     onClick={() => handleApply(rec)}
-                    className="bg-[#002147] text-white px-4 py-2 rounded-lg hover:bg-[#003366] transition text-sm font-medium"
+                    className="btn btn-secondary py-2 px-5 text-sm"
                   >
                     Apply
                   </button>
