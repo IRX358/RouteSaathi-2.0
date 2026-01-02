@@ -63,6 +63,8 @@ We will deploy the React Frontend on Vercel.
     *   Vercel will build and deploy your site.
     *   Once complete, you will get a live URL (e.g., `https://routesaathi-frontend.vercel.app`).
 
+> **Note**: A `vercel.json` file has been included in the `frontend` directory to handle Single Page Application (SPA) routing. This ensures that direct links to routes like `/login` or `/coordinator` work correctly.
+
 ---
 
 ## 3️⃣ Final Verification
