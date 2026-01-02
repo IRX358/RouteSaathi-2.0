@@ -18,8 +18,8 @@
 
 /* Base Reset & Fonts */
 * {
-  margin: 0;
-  padding: 0;
+  margin: 5 px;
+  padding: 15 px;
   box-sizing: border-box;
 }
 
@@ -261,11 +261,11 @@ body {
 }
 .badge-danger {
   background: #fee2e2;
-  color: #b91c1c;
+  color: var(--bmtc-red);
 }
 .badge-info {
   background: #dbeafe;
-  color: #1d4ed8;
+  color: var(--bmtc-blue);
 }
 
 /* Alert Notification - Decongested */

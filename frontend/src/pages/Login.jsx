@@ -62,7 +62,7 @@ function Login() {
         </div>
 
         {/* Login Card - Increased Padding */}
-        <div className="bg-white rounded-[2rem] shadow-2xl p-10 border border-white/10 backdrop-blur-sm">
+        <div className="bg-white rounded-[2rem] shadow-2xl p-14 border border-white/10 backdrop-blur-sm">
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">Welcome Back</h2>
 
           <form onSubmit={handleLogin} className="space-y-8">

@@ -39,10 +39,10 @@ function Dashboard() {
   };
 
   const statsData = [
-    { icon: Bus, value: stats.activeBuses, label: 'Active Buses', color: 'bg-blue-500', iconColor: 'text-blue-600', bgLight: 'bg-blue-50' },
-    { icon: TrendingUp, value: stats.highDemand, label: 'High Demand', color: 'bg-red-500', iconColor: 'text-red-600', bgLight: 'bg-red-50' },
-    { icon: TrendingDown, value: stats.lowDemand, label: 'Low Demand', color: 'bg-amber-500', iconColor: 'text-amber-600', bgLight: 'bg-amber-50' },
-    { icon: Zap, value: stats.aiSuggestions, label: 'AI Actions', color: 'bg-purple-500', iconColor: 'text-purple-600', bgLight: 'bg-purple-50' },
+    { icon: Bus, value: stats.activeBuses, label: 'Active Buses', color: 'bg-[#002147]', iconColor: 'text-[#002147]', bgLight: 'bg-blue-50' },
+    { icon: TrendingUp, value: stats.highDemand, label: 'High Demand', color: 'bg-[#C8102E]', iconColor: 'text-[#C8102E]', bgLight: 'bg-red-50' },
+    { icon: TrendingDown, value: stats.lowDemand, label: 'Low Demand', color: 'bg-[#003366]', iconColor: 'text-[#003366]', bgLight: 'bg-blue-50' },
+    { icon: Zap, value: stats.aiSuggestions, label: 'AI Actions', color: 'bg-[#a00d24]', iconColor: 'text-[#a00d24]', bgLight: 'bg-red-50' },
   ];
 
   const defaultAlerts = [
@@ -127,9 +127,9 @@ function Dashboard() {
 
             <button 
               onClick={() => navigate('/coordinator/communication')} 
-              className="group flex items-center gap-4 p-5 rounded-xl border-2 border-green-600/10 hover:border-green-600 hover:bg-green-600 hover:text-white transition-all duration-300 text-left"
+              className="group flex items-center gap-4 p-5 rounded-xl border-2 border-[#002147]/10 hover:border-[#002147] hover:bg-[#002147] hover:text-white transition-all duration-300 text-left"
             >
-              <div className="p-3 bg-green-50 text-green-600 rounded-lg group-hover:bg-white/10 group-hover:text-white transition-colors">
+              <div className="p-3 bg-blue-50 text-[#002147] rounded-lg group-hover:bg-white/10 group-hover:text-white transition-colors">
                 <MessageCircle className="w-6 h-6" />
               </div>
               <div>

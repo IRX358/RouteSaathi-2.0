@@ -209,5 +209,33 @@
       77.62
     ],
     "bus_id": "KA-01-F-4532"
+  },
+  {
+    "id": "BRK-20260102141257",
+    "timestamp": "2026-01-02T14:12:57.221061",
+    "sender": "CONDUCTOR",
+    "type": "BREAKDOWN",
+    "priority": "HIGH",
+    "message": "Breakdown Report: Breakdown on Bus KA-01-F-4532",
+    "status": "ACTIVE",
+    "location": [
+      12.92,
+      77.62
+    ],
+    "bus_id": "KA-01-F-4532"
+  },
+  {
+    "id": "TRF-20260102141259590585",
+    "timestamp": "2026-01-02T14:12:59.590636",
+    "sender": "CONDUCTOR",
+    "type": "TRAFFIC",
+    "priority": "MEDIUM",
+    "message": "Traffic",
+    "status": "ACTIVE",
+    "location": [
+      12.92,
+      77.62
+    ],
+    "bus_id": "KA-01-F-4532"
   }
 ]
