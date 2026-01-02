@@ -44,6 +44,23 @@ def analyze_route_demand() -> List[Dict[str, Any]]:
     # Generate recommendations
     recommendations = []
     
+    # Load ML Model
+    try:
+        import joblib
+        import pandas as pd
+        import os
+        
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        model_path = os.path.join(base_dir, "models", "backup_predictor_rf.joblib")
+        cols_path = os.path.join(base_dir, "models", "feature_columns.joblib")
+        
+        model = joblib.load(model_path)
+        feature_cols = joblib.load(cols_path)
+        model_loaded = True
+    except Exception as e:
+        print(f"ML Model loading failed: {e}")
+        model_loaded = False
+
     # Create route name mapping
     route_names = {r["id"]: r["name"] for r in routes}
     
@@ -52,23 +69,57 @@ def analyze_route_demand() -> List[Dict[str, Any]]:
         current_buses = route_bus_count.get(route_id, 0)
         avg_occupancy = sum(route_occupancy.get(route_id, [50])) / max(1, len(route_occupancy.get(route_id, [50])))
         
+        # ML Prediction
+        predicted_demand = 0
+        ml_confidence = "Low"
+        
+        if model_loaded:
+            try:
+                # Prepare features for model
+                # Features: ['n_trips', 'n_stop_events', 'shift_afternoon', 'shift_morning', 'shift_other']
+                hour = datetime.now().hour
+                is_morning = 1 if 6 <= hour < 12 else 0
+                is_afternoon = 1 if 12 <= hour < 18 else 0
+                is_other = 1 if not (is_morning or is_afternoon) else 0
+                
+                features = pd.DataFrame([{
+                    'n_trips': current_buses,
+                    'n_stop_events': ticket_count, # Using total historical tickets as proxy for volume
+                    'shift_afternoon': is_afternoon,
+                    'shift_morning': is_morning,
+                    'shift_other': is_other
+                }])
+                
+                # Ensure columns match exactly
+                for col in feature_cols:
+                    if col not in features.columns:
+                        features[col] = 0
+                features = features[feature_cols]
+                
+                prediction = model.predict(features)[0]
+                predicted_demand = prediction
+                ml_confidence = "High"
+            except Exception as e:
+                print(f"Prediction error for {route_id}: {e}")
+        
+        # Hybrid Decision Logic (ML + Rules)
         # Calculate demand score (tickets per bus)
         demand_per_bus = ticket_count / max(1, current_buses)
         
         # Determine priority and recommendation
-        if avg_occupancy > 80 or demand_per_bus > 30:
+        if (model_loaded and predicted_demand > 0.8) or (avg_occupancy > 80 or demand_per_bus > 30):
             # High demand - need more buses
             priority = "HIGH"
             recommended_buses = current_buses + 1
             change = +1
-            reason = "High demand detected, capacity straining."
+            reason = f"High demand detected (ML Prediction: {predicted_demand:.2f}), capacity straining."
             impact = "Reduce overcrowding, improve service."
-        elif avg_occupancy < 30 and current_buses > 1:
+        elif (model_loaded and predicted_demand < 0.3) and (avg_occupancy < 30 and current_buses > 1):
             # Low demand - can reduce buses
             priority = "LOW"
             recommended_buses = max(1, current_buses - 1)
             change = -1
-            reason = "Low predicted demand, capacity surplus detected."
+            reason = f"Low predicted demand (ML Prediction: {predicted_demand:.2f}), capacity surplus."
             impact = "Save fuel and resource costs."
         else:
             # Optimal
@@ -89,6 +140,7 @@ def analyze_route_demand() -> List[Dict[str, Any]]:
             "change": change,
             "average_occupancy": round(avg_occupancy, 1),
             "ticket_count": ticket_count,
+            "ml_prediction": round(float(predicted_demand), 2) if model_loaded else None,
             "reason": reason,
             "impact": impact
         })
