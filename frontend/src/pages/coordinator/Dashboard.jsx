@@ -39,10 +39,10 @@ function Dashboard() {
   };
 
   const statsData = [
-    { icon: Bus, value: stats.activeBuses, label: 'Active Buses', color: 'bg-blue-500', iconColor: 'text-blue-500', bgLight: 'bg-blue-50' },
-    { icon: TrendingUp, value: stats.highDemand, label: 'High Demand Routes', color: 'bg-red-500', iconColor: 'text-red-500', bgLight: 'bg-red-50' },
-    { icon: TrendingDown, value: stats.lowDemand, label: 'Low Demand Routes', color: 'bg-amber-500', iconColor: 'text-amber-500', bgLight: 'bg-amber-50' },
-    { icon: Zap, value: stats.aiSuggestions, label: 'AI Suggestions', color: 'bg-purple-500', iconColor: 'text-purple-500', bgLight: 'bg-purple-50' },
+    { icon: Bus, value: stats.activeBuses, label: 'Active Buses', color: 'bg-blue-500', iconColor: 'text-blue-600', bgLight: 'bg-blue-50' },
+    { icon: TrendingUp, value: stats.highDemand, label: 'High Demand', color: 'bg-red-500', iconColor: 'text-red-600', bgLight: 'bg-red-50' },
+    { icon: TrendingDown, value: stats.lowDemand, label: 'Low Demand', color: 'bg-amber-500', iconColor: 'text-amber-600', bgLight: 'bg-amber-50' },
+    { icon: Zap, value: stats.aiSuggestions, label: 'AI Actions', color: 'bg-purple-500', iconColor: 'text-purple-600', bgLight: 'bg-purple-50' },
   ];
 
   const defaultAlerts = [
@@ -53,58 +53,89 @@ function Dashboard() {
 
   return (
     <CoordinatorLayout title="Control Center">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+      {/* Stats Grid - Increased Gap */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statsData.map((stat, idx) => (
-          <div key={idx} className="stat-card">
-            <div className={`stat-icon ${stat.bgLight} ${stat.iconColor}`}>
-              <stat.icon className="w-6 h-6" />
+          <div key={idx} className="stat-card hover:shadow-lg transition-shadow duration-300">
+            <div className={`stat-icon ${stat.bgLight} ${stat.iconColor} rounded-2xl p-4`}>
+              <stat.icon className="w-8 h-8" />
             </div>
-            <div>
-              <p className="stat-value">{stat.value}</p>
-              <p className="stat-label">{stat.label}</p>
+            <div className="flex flex-col justify-center">
+              <p className="stat-value text-4xl mb-1">{stat.value}</p>
+              <p className="stat-label text-base font-medium">{stat.label}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Alerts */}
-        <div className="lg:col-span-2 card">
-          <div className="card-header flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-[#C8102E]" />
-              <span>Recent Alerts</span>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Alerts - More Breathing Room */}
+        <div className="lg:col-span-2 card h-full">
+          <div className="card-header flex items-center justify-between py-6 px-8">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-red-50 rounded-lg">
+                <AlertCircle className="w-6 h-6 text-[#C8102E]" />
+              </div>
+              <span className="text-xl">Recent Alerts</span>
             </div>
-            <button className="text-sm text-[#C8102E] font-medium flex items-center gap-1 hover:underline">
-              View All <ChevronRight className="w-4 h-4" />
+            <button className="text-[#C8102E] font-semibold flex items-center gap-2 hover:bg-red-50 px-4 py-2 rounded-lg transition-colors">
+              View All <ChevronRight className="w-5 h-5" />
             </button>
           </div>
-          <div className="card-body space-y-3">
+          <div className="card-body p-8 space-y-4">
             {(alerts.length > 0 ? alerts : defaultAlerts).map((alert, idx) => (
-              <div key={idx} className="alert-item">
-                <p>{alert.message}</p>
-                <p className="time">{alert.time || new Date(alert.timestamp).toLocaleTimeString()}</p>
+              <div key={idx} className="alert-item p-5 border-l-4 border-[#C8102E] bg-red-50/50 rounded-r-xl hover:bg-red-50 transition-colors">
+                <p className="text-lg text-gray-800 font-medium">{alert.message}</p>
+                <p className="time text-sm text-gray-500 mt-2 font-medium flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-red-400"></span>
+                  {alert.time || new Date(alert.timestamp).toLocaleTimeString()}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="card">
-          <div className="card-header">Quick Actions</div>
-          <div className="card-body space-y-3">
-            <button onClick={() => navigate('/coordinator/routes')} className="btn btn-secondary w-full justify-start">
-              <Bus className="w-5 h-5" />
-              Track Live Buses
+        {/* Quick Actions - Standardized Buttons */}
+        <div className="card h-full">
+          <div className="card-header py-6 px-8 text-xl">Quick Actions</div>
+          <div className="card-body p-8 flex flex-col gap-4">
+            <button 
+              onClick={() => navigate('/coordinator/routes')} 
+              className="group flex items-center gap-4 p-5 rounded-xl border-2 border-[#002147]/10 hover:border-[#002147] hover:bg-[#002147] hover:text-white transition-all duration-300 text-left"
+            >
+              <div className="p-3 bg-blue-50 text-[#002147] rounded-lg group-hover:bg-white/10 group-hover:text-white transition-colors">
+                <Bus className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="block font-bold text-lg">Track Live Buses</span>
+                <span className="text-sm text-gray-500 group-hover:text-white/80">View real-time fleet map</span>
+              </div>
             </button>
-            <button onClick={() => navigate('/coordinator/ai')} className="btn btn-primary w-full justify-start">
-              <Lightbulb className="w-5 h-5" />
-              AI Recommendations
+
+            <button 
+              onClick={() => navigate('/coordinator/ai')} 
+              className="group flex items-center gap-4 p-5 rounded-xl border-2 border-[#C8102E]/10 hover:border-[#C8102E] hover:bg-[#C8102E] hover:text-white transition-all duration-300 text-left"
+            >
+              <div className="p-3 bg-red-50 text-[#C8102E] rounded-lg group-hover:bg-white/10 group-hover:text-white transition-colors">
+                <Lightbulb className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="block font-bold text-lg">AI Recommendations</span>
+                <span className="text-sm text-gray-500 group-hover:text-white/80">Optimize fleet allocation</span>
+              </div>
             </button>
-            <button onClick={() => navigate('/coordinator/communication')} className="btn w-full justify-start bg-green-600 hover:bg-green-700 text-white">
-              <MessageCircle className="w-5 h-5" />
-              Message Conductors
+
+            <button 
+              onClick={() => navigate('/coordinator/communication')} 
+              className="group flex items-center gap-4 p-5 rounded-xl border-2 border-green-600/10 hover:border-green-600 hover:bg-green-600 hover:text-white transition-all duration-300 text-left"
+            >
+              <div className="p-3 bg-green-50 text-green-600 rounded-lg group-hover:bg-white/10 group-hover:text-white transition-colors">
+                <MessageCircle className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="block font-bold text-lg">Message Conductors</span>
+                <span className="text-sm text-gray-500 group-hover:text-white/80">Broadcast updates</span>
+              </div>
             </button>
           </div>
         </div>

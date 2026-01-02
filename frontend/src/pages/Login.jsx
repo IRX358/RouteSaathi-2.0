@@ -48,93 +48,94 @@ function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#002147] via-[#003366] to-[#002147] flex items-center justify-center p-6">
       <div className="w-full max-w-md animate-fadeIn">
-        {/* Logo and Branding */}
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-28 h-28 bg-white rounded-3xl shadow-lg mb-6 p-1 overflow-hidden">
+        {/* Logo and Branding - Increased Spacing */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-32 h-32 bg-white rounded-[2rem] shadow-2xl mb-8 p-1.5 overflow-hidden transform hover:scale-105 transition-transform duration-300">
             <img 
               src={logo} 
               alt="RouteSaathi Logo" 
-              className="w-full h-full object-cover rounded-2xl" 
+              className="w-full h-full object-cover rounded-[1.5rem]" 
             />
           </div>
-          <h1 className="text-4xl font-bold text-white tracking-tight mb-2">RouteSaathi</h1>
-          <p className="text-blue-200 text-lg font-medium">BMTC Fleet Management System</p>
+          <h1 className="text-5xl font-bold text-white tracking-tight mb-3 drop-shadow-lg">RouteSaathi</h1>
+          <p className="text-blue-200 text-xl font-medium tracking-wide">BMTC Fleet Management System</p>
         </div>
 
-        {/* Login Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Welcome Back</h2>
+        {/* Login Card - Increased Padding */}
+        <div className="bg-white rounded-[2rem] shadow-2xl p-10 border border-white/10 backdrop-blur-sm">
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-10">Welcome Back</h2>
 
-          <form onSubmit={handleLogin} className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2 ml-1">Email Address</label>
+          <form onSubmit={handleLogin} className="space-y-8">
+            <div className="space-y-2">
+              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">Email Address</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="input"
+                className="input py-4 text-lg bg-gray-50 focus:bg-white transition-colors"
                 placeholder="you@example.com"
                 required
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2 ml-1">Password</label>
+            <div className="space-y-2">
+              <label className="block text-sm font-bold text-gray-700 ml-1 uppercase tracking-wider text-xs">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input"
+                className="input py-4 text-lg bg-gray-50 focus:bg-white transition-colors"
                 placeholder="••••••••"
                 required
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium text-center">
+              <div className="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-xl text-sm font-medium text-center flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500"></span>
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="btn btn-primary w-full py-4 text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+            <button type="submit" disabled={loading} className="btn btn-primary w-full py-5 text-xl shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all rounded-xl font-bold tracking-wide">
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
-          {/* Passenger Access Button */}
-          <div className="mt-6">
+          {/* Passenger Access Button - More Breathing Room */}
+          <div className="mt-8">
             <button 
               onClick={handlePassengerAccess}
               disabled={loading}
-              className="w-full bg-blue-50 hover:bg-blue-100 text-[#002147] border-2 border-[#002147]/10 py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all group"
+              className="w-full bg-blue-50 hover:bg-blue-100 text-[#002147] border-2 border-[#002147]/10 py-5 rounded-xl font-bold text-lg flex items-center justify-center gap-3 transition-all group hover:shadow-md"
             >
-              <UserCircle className="w-6 h-6" />
+              <UserCircle className="w-7 h-7" />
               Use as Passenger
               <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all" />
             </button>
           </div>
 
-          {/* Demo Logins */}
-          <div className="mt-8 pt-8 border-t border-gray-100">
-            <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-wider mb-4">Staff Demo Access</p>
-            <div className="space-y-3">
+          {/* Demo Logins - Cleaned Up */}
+          <div className="mt-10 pt-8 border-t border-gray-100">
+            <p className="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Staff Demo Access</p>
+            <div className="space-y-4">
               {demoUsers.map((user, idx) => (
                 <button
                   key={idx}
                   onClick={() => performLogin(user.email, user.password)}
                   disabled={loading}
-                  className="w-full flex items-center gap-4 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition group border border-transparent hover:border-gray-200"
+                  className="w-full flex items-center gap-5 p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition group border border-transparent hover:border-gray-200 hover:shadow-sm"
                 >
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm ${
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-sm ${
                     idx === 0 ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'
                   }`}>
-                    <user.icon className="w-5 h-5" />
+                    <user.icon className="w-6 h-6" />
                   </div>
                   <div className="text-left flex-1">
-                    <p className="font-bold text-gray-900 text-sm">{user.label}</p>
-                    <p className="text-xs text-gray-500 font-medium">{user.desc}</p>
+                    <p className="font-bold text-gray-900 text-base">{user.label}</p>
+                    <p className="text-xs text-gray-500 font-medium mt-0.5">{user.desc}</p>
                   </div>
-                  <span className="text-gray-300 group-hover:text-gray-600 text-sm">Login →</span>
+                  <span className="text-gray-300 group-hover:text-gray-600 text-sm font-medium transition-colors">Login →</span>
                 </button>
               ))}
             </div>
@@ -142,7 +143,7 @@ function Login() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-blue-300/80 text-sm mt-8 font-medium">
+        <p className="text-center text-blue-200/60 text-sm mt-10 font-medium tracking-wide">
           © 2025 Bengaluru Metropolitan Transport Corporation
         </p>
       </div>
