@@ -49,7 +49,7 @@ RouteSaathi 2.0 is a comprehensive, AI-powered fleet management solution designe
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/IRX358/RouteSaathi-2.0?tab=readme-ov-file#-project-structure
 cd RouteSaathi-2.0
 ```
 
