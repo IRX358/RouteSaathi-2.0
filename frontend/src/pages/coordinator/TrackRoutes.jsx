@@ -68,64 +68,64 @@ function TrackRoutes() {
       title="Track Bus Routes"
       subtitle="Live fleet tracking with real-time bus positions"
     >
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-6">
         {/* Bus List Sidebar */}
-        <div className="col-span-3 bg-white rounded-xl shadow-sm overflow-hidden max-h-[70vh]">
-          <div className="p-4 border-b">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-gray-800">Active Buses</h3>
-              <button onClick={loadBuses} className="text-gray-500 hover:text-gray-700">
-                <RefreshCw className="w-4 h-4" />
+        <div className="col-span-3 bg-white rounded-xl shadow-sm overflow-hidden max-h-[75vh]">
+          <div className="p-6 border-b">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-bold text-gray-800 text-lg">Active Buses</h3>
+              <button onClick={loadBuses} className="text-gray-500 hover:text-gray-700 transition p-2 hover:bg-gray-100 rounded-lg">
+                <RefreshCw className="w-5 h-5" />
               </button>
             </div>
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search bus or route..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm"
+                className="w-full pl-12 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#C8102E]/20"
               />
             </div>
           </div>
 
-          <div className="overflow-y-auto max-h-[55vh]">
+          <div className="overflow-y-auto max-h-[60vh]">
             {filteredBuses.map((bus) => (
               <div
                 key={bus.id}
                 onClick={() => setSelectedBus(bus)}
-                className={`p-3 border-b cursor-pointer hover:bg-gray-50 ${
-                  selectedBus?.id === bus.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+                className={`data-list-item cursor-pointer ${
+                  selectedBus?.id === bus.id ? 'bg-blue-50 border-l-4 border-l-[#C8102E]' : ''
                 }`}
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-3">
                   <div>
-                    <p className="font-semibold text-gray-800">{bus.id}</p>
-                    <p className="text-xs text-gray-500">Route: {bus.route_id}</p>
+                    <p className="font-semibold text-gray-800 text-base">{bus.id}</p>
+                    <p className="text-sm text-gray-500 mt-1">Route: {bus.route_id}</p>
                   </div>
-                  <span 
-                    className="px-2 py-1 rounded text-xs font-semibold text-white"
+                  <span
+                    className="px-4 py-2 rounded-full text-xs font-bold text-white whitespace-nowrap"
                     style={{ backgroundColor: getStatusColor(bus.status) }}
                   >
                     {bus.status}
                   </span>
                 </div>
-                <div className="mt-2 flex justify-between text-xs text-gray-500">
-                  <span>📍 {bus.last_stop}</span>
-                  <span>🚗 {bus.speed}</span>
+                <div className="mt-3 flex justify-between text-sm text-gray-500">
+                  <span className="flex items-center gap-1.5">📍 {bus.last_stop}</span>
+                  <span className="flex items-center gap-1.5">🚗 {bus.speed}</span>
                 </div>
-                <div className="mt-1">
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="h-2 rounded-full"
-                      style={{ 
+                <div className="mt-3">
+                  <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div
+                      className="h-2.5 rounded-full transition-all"
+                      style={{
                         width: `${bus.occupancy_percent}%`,
                         backgroundColor: bus.occupancy_percent > 80 ? '#EF4444' : bus.occupancy_percent > 50 ? '#F59E0B' : '#10B981'
                       }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 text-right mt-1">{bus.occupancy_percent}% Full</p>
+                  <p className="text-sm text-gray-600 text-right mt-2 font-medium">{bus.occupancy_percent}% Full</p>
                 </div>
               </div>
             ))}
@@ -168,28 +168,28 @@ function TrackRoutes() {
 
           {/* Selected Bus Details */}
           {selectedBus && (
-            <div className="mt-4 bg-white rounded-xl shadow-sm p-4">
-              <h3 className="font-bold text-lg mb-3">Vehicle Details: {selectedBus.id}</h3>
-              <div className="grid grid-cols-5 gap-4">
+            <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
+              <h3 className="font-bold text-xl mb-5">Vehicle Details: {selectedBus.id}</h3>
+              <div className="grid grid-cols-5 gap-6">
                 <div>
-                  <p className="text-sm text-gray-500">Route</p>
-                  <p className="font-semibold">{selectedBus.route_id}</p>
+                  <p className="text-sm text-gray-500 mb-2 font-medium">Route</p>
+                  <p className="font-bold text-base">{selectedBus.route_id}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Status</p>
-                  <p className="font-semibold" style={{ color: getStatusColor(selectedBus.status) }}>{selectedBus.status}</p>
+                  <p className="text-sm text-gray-500 mb-2 font-medium">Status</p>
+                  <p className="font-bold text-base" style={{ color: getStatusColor(selectedBus.status) }}>{selectedBus.status}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Speed</p>
-                  <p className="font-semibold">{selectedBus.speed}</p>
+                  <p className="text-sm text-gray-500 mb-2 font-medium">Speed</p>
+                  <p className="font-bold text-base">{selectedBus.speed}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Occupancy</p>
-                  <p className="font-semibold">{selectedBus.occupancy_percent}%</p>
+                  <p className="text-sm text-gray-500 mb-2 font-medium">Occupancy</p>
+                  <p className="font-bold text-base">{selectedBus.occupancy_percent}%</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Last Stop</p>
-                  <p className="font-semibold">{selectedBus.last_stop}</p>
+                  <p className="text-sm text-gray-500 mb-2 font-medium">Last Stop</p>
+                  <p className="font-bold text-base">{selectedBus.last_stop}</p>
                 </div>
               </div>
             </div>

@@ -89,19 +89,19 @@ function Communication() {
       title="Coordinator-Conductor Communication"
       subtitle="Real-time messaging with bus conductors"
     >
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-6">
         {/* Conductors List */}
         <div className="col-span-3 bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="p-4 border-b">
-            <h3 className="font-bold text-gray-800 mb-3">Active Conductors</h3>
+          <div className="p-6 border-b">
+            <h3 className="font-bold text-gray-800 mb-4 text-lg">Active Conductors</h3>
             <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search bus or conductor..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border rounded-lg text-sm"
+                className="w-full pl-12 pr-4 py-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#C8102E]/20"
               />
             </div>
           </div>
@@ -110,39 +110,42 @@ function Communication() {
           <div className="flex border-b text-sm">
             <button
               onClick={() => setActiveFilter('all')}
-              className={`flex-1 px-4 py-2 font-medium ${activeFilter === 'all' ? 'text-[#C8102E] border-b-2 border-[#C8102E]' : 'text-gray-500'}`}
+              className={`flex-1 px-5 py-3 font-semibold transition ${activeFilter === 'all' ? 'text-[#C8102E] border-b-3 border-[#C8102E]' : 'text-gray-500 hover:text-gray-700'}`}
             >
               All ({conductors.length})
             </button>
             <button
               onClick={() => setActiveFilter('online')}
-              className={`flex-1 px-4 py-2 font-medium ${activeFilter === 'online' ? 'text-[#C8102E] border-b-2 border-[#C8102E]' : 'text-gray-500'}`}
+              className={`flex-1 px-5 py-3 font-semibold transition ${activeFilter === 'online' ? 'text-[#C8102E] border-b-3 border-[#C8102E]' : 'text-gray-500 hover:text-gray-700'}`}
             >
               Online ({conductors.filter(c => c.status === 'online').length})
             </button>
             <button
               onClick={() => setActiveFilter('unread')}
-              className={`flex-1 px-4 py-2 font-medium ${activeFilter === 'unread' ? 'text-[#C8102E] border-b-2 border-[#C8102E]' : 'text-gray-500'}`}
+              className={`flex-1 px-5 py-3 font-semibold transition ${activeFilter === 'unread' ? 'text-[#C8102E] border-b-3 border-[#C8102E]' : 'text-gray-500 hover:text-gray-700'}`}
             >
               Unread ({conductors.filter(c => c.unread).length})
             </button>
           </div>
 
           {/* Conductor List */}
-          <div className="max-h-96 overflow-y-auto">
+          <div className="max-h-[500px] overflow-y-auto">
             {filteredConductors.map((conductor) => (
               <div
                 key={conductor.id}
                 onClick={() => handleSelectConductor(conductor)}
-                className={`p-4 border-b cursor-pointer hover:bg-gray-50 ${
-                  selectedConductor?.id === conductor.id ? 'bg-blue-50' : ''
+                className={`data-list-item cursor-pointer ${
+                  selectedConductor?.id === conductor.id ? 'bg-blue-50 border-l-4 border-l-[#C8102E]' : ''
                 }`}
               >
-                <div className="flex items-start gap-2">
-                  <Circle className={`w-3 h-3 mt-1.5 ${conductor.status === 'online' ? 'fill-green-500 text-green-500' : 'fill-red-500 text-red-500'}`} />
-                  <div>
-                    <p className="font-medium text-gray-800">{conductor.name} <span className={conductor.status === 'online' ? 'text-green-500' : 'text-red-500'}>●</span></p>
-                    <p className="text-xs text-gray-500">Bus: {conductor.bus_id} | Route: {conductor.route_id}</p>
+                <div className="flex items-start gap-3">
+                  <Circle className={`w-4 h-4 mt-1 ${conductor.status === 'online' ? 'fill-green-500 text-green-500' : 'fill-red-500 text-red-500'}`} />
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-800 text-base mb-1">
+                      {conductor.name}
+                      <span className={`ml-2 text-sm ${conductor.status === 'online' ? 'text-green-500' : 'text-red-500'}`}>●</span>
+                    </p>
+                    <p className="text-sm text-gray-500">Bus: {conductor.bus_id} | Route: {conductor.route_id}</p>
                   </div>
                 </div>
               </div>
@@ -151,40 +154,40 @@ function Communication() {
         </div>
 
         {/* Chat Area */}
-        <div className="col-span-6 bg-white rounded-xl shadow-sm flex flex-col">
+        <div className="col-span-6 bg-white rounded-xl shadow-sm flex flex-col min-h-[600px]">
           {/* Chat Header */}
           {selectedConductor && (
-            <div className="p-4 border-b bg-[#002147] text-white rounded-t-xl">
-              <h3 className="font-bold">{selectedConductor.name}</h3>
-              <p className="text-sm text-blue-200">{selectedConductor.bus_id} | Route {selectedConductor.route_id}</p>
+            <div className="p-6 border-b bg-[#002147] text-white rounded-t-xl">
+              <h3 className="font-bold text-lg">{selectedConductor.name}</h3>
+              <p className="text-sm text-blue-200 mt-1">{selectedConductor.bus_id} | Route {selectedConductor.route_id}</p>
             </div>
           )}
 
           {/* Messages */}
-          <div className="flex-1 p-4 space-y-4 overflow-y-auto min-h-[300px]">
+          <div className="flex-1 p-6 space-y-5 overflow-y-auto">
             {messages.map((msg) => (
               <div key={msg.id} className={`flex ${msg.type === 'sent' ? 'justify-end' : 'justify-start'}`}>
                 <div className={msg.type === 'sent' ? 'chat-message-sent' : 'chat-message-received'}>
-                  <p>{msg.text}</p>
-                  <p className={`text-xs mt-1 ${msg.type === 'sent' ? 'text-red-200' : 'text-gray-500'}`}>{msg.time}</p>
+                  <p className="leading-relaxed">{msg.text}</p>
+                  <p className={`text-xs mt-2 ${msg.type === 'sent' ? 'text-red-200' : 'text-gray-500'}`}>{msg.time}</p>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Input */}
-          <div className="p-4 border-t flex gap-2">
+          <div className="p-6 border-t flex gap-3">
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
               placeholder="Type a message..."
-              className="flex-1 px-4 py-2 border rounded-lg"
+              className="flex-1 px-5 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-[#C8102E]/20 text-base"
             />
             <button
               onClick={handleSendMessage}
-              className="bg-[#C8102E] text-white px-4 py-2 rounded-lg hover:bg-[#a00d24] transition"
+              className="bg-[#C8102E] text-white px-6 py-3 rounded-xl hover:bg-[#a00d24] transition flex items-center justify-center min-w-[60px]"
             >
               <Send className="w-5 h-5" />
             </button>
@@ -192,32 +195,32 @@ function Communication() {
         </div>
 
         {/* Conductor Info */}
-        <div className="col-span-3 bg-white rounded-xl shadow-sm p-4">
-          <h3 className="font-bold text-gray-800 mb-4">Conductor Information</h3>
+        <div className="col-span-3 bg-white rounded-xl shadow-sm p-6">
+          <h3 className="font-bold text-gray-800 mb-6 text-lg">Conductor Information</h3>
           {selectedConductor && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <p className="text-sm text-gray-500">Conductor Name</p>
-                <p className="font-semibold text-gray-800">{selectedConductor.name}</p>
+                <p className="text-sm text-gray-500 mb-2 font-medium">Conductor Name</p>
+                <p className="font-semibold text-gray-800 text-base">{selectedConductor.name}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Bus Number</p>
-                <p className="font-semibold text-[#C8102E]">{selectedConductor.bus_id}</p>
+                <p className="text-sm text-gray-500 mb-2 font-medium">Bus Number</p>
+                <p className="font-semibold text-[#C8102E] text-base">{selectedConductor.bus_id}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Route</p>
-                <p className="font-semibold text-[#002147]">{selectedConductor.route_id}</p>
+                <p className="text-sm text-gray-500 mb-2 font-medium">Route</p>
+                <p className="font-semibold text-[#002147] text-base">{selectedConductor.route_id}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Status</p>
-                <p className="font-semibold flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${selectedConductor.status === 'online' ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                <p className="text-sm text-gray-500 mb-2 font-medium">Status</p>
+                <p className="font-semibold flex items-center gap-3 text-base">
+                  <span className={`w-3 h-3 rounded-full ${selectedConductor.status === 'online' ? 'bg-green-500' : 'bg-red-500'}`}></span>
                   {selectedConductor.status === 'online' ? 'Online' : 'Offline'}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">Last Active</p>
-                <p className="font-semibold text-gray-800">Now</p>
+                <p className="text-sm text-gray-500 mb-2 font-medium">Last Active</p>
+                <p className="font-semibold text-gray-800 text-base">Now</p>
               </div>
             </div>
           )}
